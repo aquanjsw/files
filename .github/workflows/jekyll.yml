@@ -36,6 +36,8 @@ jobs:
         with:
           lfs: true
           submodules: true
+      - name: Ensure LFS
+        run: git lfs pull
       - name: Setup Ruby
         uses: ruby/setup-ruby
         with:
@@ -63,4 +65,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
