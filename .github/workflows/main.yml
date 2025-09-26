@@ -46,7 +46,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: check-mihomo
-    if: needs.check-mihomo.outputs.needs-update == 'true'
+    if: needs.check-mihomo.outputs.needs-update == 'true' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Install dependencies
         run: sudo apt update && sudo apt install -y gnupg aptly
@@ -58,7 +58,14 @@ jobs:
         run: |
           tag="${{ needs.check-mihomo.outputs.tag }}"
           name="mihomo-linux-amd64-v3-${tag}.deb"
-          wget "https://github.com/MetaCubeX/mihomo/releases/download/${tag}/${name}"
+          wget -q "https://github.com/MetaCubeX/mihomo/releases/download/${tag}/${name}"
+
+          pubkey=pubkey.gpg
+          gpg --armor --export ${{ vars.EMAIL }} > $pubkey
+          export PUBKEY=$pubkey
+          export REPO=${{ env.UBUNTU_REPO_NAME }}
+          ./repack-deb.sh "${name}" "${name}"
+
           echo "mihomo=${name}" >> $GITHUB_ENV
       - name: Prepare ubuntu repo
         run: |
@@ -66,7 +73,6 @@ jobs:
           aptly repo add ubuntu-repo "${{ env.mihomo }}"
           aptly publish repo -gpg-key=${{ vars.EMAIL }} ubuntu-repo
           cp -r ~/.aptly/public ./${{ env.UBUNTU_REPO_NAME }}
-          gpg --armor --export ${{ vars.EMAIL }} > ./${{ env.UBUNTU_REPO_NAME }}/pubkey.gpg
       - name: Create nodes
         run: find ./${{ env.UBUNTU_REPO_NAME }} -type d | sed 's|/$||g' | xargs -I{} touch "{}/index.md"
       - name: Setup Ruby
