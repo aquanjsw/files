@@ -1,0 +1,6 @@
+[Unit]
+Description=Manage all the frpc instances
+Requires=frpc-public.service frpc-local.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+[Unit]
+Description=Manage all the frps instances
+Requires=frps-local.service frps-public.service
+
+[Install]
+WantedBy=multi-user.target

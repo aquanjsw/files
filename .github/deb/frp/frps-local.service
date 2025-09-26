@@ -1,0 +1,12 @@
+[Unit]
+Description=frp server for local binding
+After=network.target syslog.target
+Wants=network.target
+
+[Service]
+ExecStart=/usr/bin/frps -c /etc/frp/frps-local.toml
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target

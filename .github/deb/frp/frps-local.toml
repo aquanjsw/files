@@ -1,0 +1,2 @@
+bindPort = 7000
+proxyBindAddr = "127.0.0.1"

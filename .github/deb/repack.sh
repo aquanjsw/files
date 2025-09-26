@@ -1,4 +1,6 @@
 #!/bin/bash
+# Repack a .deb file to add a GPG key and APT repository
+#
 # Usage: $0 input.deb output.deb
 # Needed envs:
 #   PUBKEY - the public key path
@@ -29,7 +31,9 @@ gpg --yes --dearmor -o /etc/apt/trusted.gpg.d/$keyid.gpg - <<EOL
 $pubkey
 EOL
 
-add-apt-repository -S deb https://aquanjsw.github.io/files/$repo stable main
+cat > /etc/apt/sources.list.d/$keyid.list <<EOL
+deb https://aquanjsw.github.io/files/$repo/ stable main
+EOL
 EOF
 
 chmod +x "$unpacked/DEBIAN/postinst"

@@ -1,0 +1,15 @@
+-s dir
+--name frps
+--category net
+--description "frp server"
+--no-deb-generate-changes
+--config-files /etc/frp/frps-local.toml
+--config-files /etc/frp/frps-public.toml
+
+.github/deb/frp/frps-local.toml=/etc/frp/frps-local.toml
+.github/deb/frp/frps-public.toml=/etc/frp/frps-public.toml
+
+.github/deb/frp/frps.target=/etc/systemd/system/frps.target
+.github/deb/frp/frps-local.service=/etc/systemd/system/frps-local.service
+.github/deb/frp/frps-public.service=/etc/systemd/system/frps-public.service
+

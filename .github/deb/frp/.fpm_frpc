@@ -1,0 +1,15 @@
+-s dir
+--name frpc
+--category net
+--description "frp client"
+--no-deb-generate-changes
+--config-files /etc/frp/frpc-local.toml
+--config-files /etc/frp/frpc-public.toml
+
+.github/deb/frp/frpc-local.toml=/etc/frp/frpc-local.toml
+.github/deb/frp/frpc-public.toml=/etc/frp/frpc-public.toml
+
+.github/deb/frp/frpc.target=/etc/systemd/system/frpc.target
+.github/deb/frp/frpc-local.service=/etc/systemd/system/frpc-local.service
+.github/deb/frp/frpc-public.service=/etc/systemd/system/frpc-public.service
+
