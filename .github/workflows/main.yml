@@ -5,7 +5,7 @@ on:
     branches: ["master"]
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0" # 每周日运行一次
+    - cron: "0 0 * * 0" # Every sunday
 
 concurrency:
   group: "pages"
